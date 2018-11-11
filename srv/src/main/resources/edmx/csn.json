@@ -1,0 +1,427 @@
+{
+  "definitions": {
+    "PurchaseOrder": {
+      "kind": "service",
+      "@source": "srv/my-service.cds"
+    },
+    "PurchaseOrder.APPROVAL_STATUS": {
+      "kind": "entity",
+      "source": "my.tech.APPROVAL_STATUS",
+      "elements": {
+        "ID": {
+          "origin": "my.tech.APPROVAL_STATUS..ID",
+          "indexNo": 1,
+          "value": {
+            "=": "APPROVAL_STATUS.ID"
+          },
+          "key": true,
+          "type": "cds.Integer",
+          "@cds.persistence.name": "ID"
+        },
+        "APPROVALSTATUS": {
+          "origin": "my.tech.APPROVAL_STATUS..APPROVALSTATUS",
+          "indexNo": 2,
+          "value": {
+            "=": "APPROVAL_STATUS.APPROVALSTATUS"
+          },
+          "type": "cds.Association",
+          "target": "PurchaseOrder.HEADER",
+          "foreignKeys": {
+            "ID": {
+              "origin": "my.tech.APPROVAL_STATUS..APPROVALSTATUS.ID",
+              "indexNo": 1,
+              "path": "ID",
+              "generatedFieldName": "APPROVALSTATUS_ID",
+              "@cds.persistence.name": "ID"
+            }
+          },
+          "redirected": true,
+          "@cds.persistence.name": "APPROVALSTATUS"
+        },
+        "TEXT": {
+          "origin": "my.tech.APPROVAL_STATUS..TEXT",
+          "indexNo": 3,
+          "value": {
+            "=": "APPROVAL_STATUS.TEXT"
+          },
+          "type": "cds.String",
+          "@cds.persistence.name": "TEXT"
+        },
+        "APPROVALSTATUS_ID": {
+          "type": "cds.Integer",
+          "value": {
+            "=": "APPROVAL_STATUS.APPROVALSTATUS_ID"
+          },
+          "origin": "my.tech.APPROVAL_STATUS..APPROVALSTATUS_ID",
+          "@odata.foreignKey4": "APPROVALSTATUS",
+          "@cds.persistence.name": "APPROVALSTATUS_ID"
+        }
+      },
+      "@cds.persistence.name": "PURCHASEORDER_APPROVAL_STATUS"
+    },
+    "PurchaseOrder.HEADER": {
+      "kind": "entity",
+      "source": "my.tech.HEADER",
+      "elements": {
+        "ID": {
+          "origin": "my.tech.HEADER..ID",
+          "indexNo": 1,
+          "value": {
+            "=": "HEADER.ID"
+          },
+          "key": true,
+          "type": "cds.Integer",
+          "@cds.persistence.name": "ID"
+        },
+        "PURCHASEORDERID": {
+          "origin": "my.tech.HEADER..PURCHASEORDERID",
+          "indexNo": 2,
+          "value": {
+            "=": "HEADER.PURCHASEORDERID"
+          },
+          "type": "cds.Association",
+          "target": "PurchaseOrder.ITEM",
+          "cardinality": {
+            "targetMax": "*"
+          },
+          "onCond": {
+            "op": "=",
+            "args": [
+              {
+                "=": "PURCHASEORDERID.PURCHASEORDERID"
+              },
+              {
+                "=": "$self"
+              }
+            ]
+          },
+          "on": "PURCHASEORDERID.PURCHASEORDERID = $self",
+          "redirected": true,
+          "@cds.persistence.name": "PURCHASEORDERID"
+        },
+        "CURRENCY": {
+          "origin": "my.tech.HEADER..CURRENCY",
+          "indexNo": 3,
+          "value": {
+            "=": "HEADER.CURRENCY"
+          },
+          "type": "cds.String",
+          "@cds.persistence.name": "CURRENCY"
+        },
+        "GROSSAMOUNT": {
+          "origin": "my.tech.HEADER..GROSSAMOUNT",
+          "indexNo": 4,
+          "value": {
+            "=": "HEADER.GROSSAMOUNT"
+          },
+          "type": "cds.Decimal",
+          "precision": 15,
+          "scale": 2,
+          "@cds.persistence.name": "GROSSAMOUNT"
+        },
+        "NETAMOUNT": {
+          "origin": "my.tech.HEADER..NETAMOUNT",
+          "indexNo": 5,
+          "value": {
+            "=": "HEADER.NETAMOUNT"
+          },
+          "type": "cds.Decimal",
+          "precision": 15,
+          "scale": 2,
+          "@cds.persistence.name": "NETAMOUNT"
+        },
+        "APPROVALSTATUS": {
+          "origin": "my.tech.HEADER..APPROVALSTATUS",
+          "indexNo": 6,
+          "value": {
+            "=": "HEADER.APPROVALSTATUS"
+          },
+          "type": "cds.String",
+          "@cds.persistence.name": "APPROVALSTATUS"
+        }
+      },
+      "@cds.persistence.name": "PURCHASEORDER_HEADER"
+    },
+    "PurchaseOrder.ITEM": {
+      "kind": "entity",
+      "source": "my.tech.ITEM",
+      "elements": {
+        "ID": {
+          "origin": "my.tech.ITEM..ID",
+          "indexNo": 1,
+          "value": {
+            "=": "ITEM.ID"
+          },
+          "key": true,
+          "type": "cds.Integer",
+          "@cds.persistence.name": "ID"
+        },
+        "PURCHASEORDERID": {
+          "origin": "my.tech.ITEM..PURCHASEORDERID",
+          "indexNo": 2,
+          "value": {
+            "=": "ITEM.PURCHASEORDERID"
+          },
+          "type": "cds.Association",
+          "target": "PurchaseOrder.HEADER",
+          "foreignKeys": {
+            "ID": {
+              "origin": "my.tech.ITEM..PURCHASEORDERID.ID",
+              "indexNo": 1,
+              "path": "ID",
+              "generatedFieldName": "PURCHASEORDERID_ID",
+              "@cds.persistence.name": "ID"
+            }
+          },
+          "redirected": true,
+          "@cds.persistence.name": "PURCHASEORDERID"
+        },
+        "PURCHASEORDERITEM": {
+          "origin": "my.tech.ITEM..PURCHASEORDERITEM",
+          "indexNo": 3,
+          "value": {
+            "=": "ITEM.PURCHASEORDERITEM"
+          },
+          "type": "cds.UUID",
+          "@cds.persistence.name": "PURCHASEORDERITEM"
+        },
+        "PRODUCTID": {
+          "origin": "my.tech.ITEM..PRODUCTID",
+          "indexNo": 4,
+          "value": {
+            "=": "ITEM.PRODUCTID"
+          },
+          "type": "cds.String",
+          "@cds.persistence.name": "PRODUCTID"
+        },
+        "CURRENCY": {
+          "origin": "my.tech.ITEM..CURRENCY",
+          "indexNo": 5,
+          "value": {
+            "=": "ITEM.CURRENCY"
+          },
+          "type": "cds.String",
+          "@cds.persistence.name": "CURRENCY"
+        },
+        "GROSSAMOUNT": {
+          "origin": "my.tech.ITEM..GROSSAMOUNT",
+          "indexNo": 6,
+          "value": {
+            "=": "ITEM.GROSSAMOUNT"
+          },
+          "type": "cds.Decimal",
+          "precision": 15,
+          "scale": 2,
+          "@cds.persistence.name": "GROSSAMOUNT"
+        },
+        "NETAMOUNT": {
+          "origin": "my.tech.ITEM..NETAMOUNT",
+          "indexNo": 7,
+          "value": {
+            "=": "ITEM.NETAMOUNT"
+          },
+          "type": "cds.String",
+          "@cds.persistence.name": "NETAMOUNT"
+        },
+        "QUANTITY": {
+          "origin": "my.tech.ITEM..QUANTITY",
+          "indexNo": 8,
+          "value": {
+            "=": "ITEM.QUANTITY"
+          },
+          "type": "cds.Decimal",
+          "precision": 5,
+          "scale": 2,
+          "@cds.persistence.name": "QUANTITY"
+        },
+        "QUANTITYUNIT": {
+          "origin": "my.tech.ITEM..QUANTITYUNIT",
+          "indexNo": 9,
+          "value": {
+            "=": "ITEM.QUANTITYUNIT"
+          },
+          "type": "cds.String",
+          "@cds.persistence.name": "QUANTITYUNIT"
+        },
+        "PURCHASEORDERID_ID": {
+          "type": "cds.Integer",
+          "value": {
+            "=": "ITEM.PURCHASEORDERID_ID"
+          },
+          "origin": "my.tech.ITEM..PURCHASEORDERID_ID",
+          "@odata.foreignKey4": "PURCHASEORDERID",
+          "@cds.persistence.name": "PURCHASEORDERID_ID"
+        }
+      },
+      "@cds.persistence.name": "PURCHASEORDER_ITEM"
+    },
+    "my.tech.APPROVAL_STATUS": {
+      "kind": "entity",
+      "elements": {
+        "ID": {
+          "key": true,
+          "indexNo": 1,
+          "type": "cds.Integer",
+          "@cds.persistence.name": "ID"
+        },
+        "APPROVALSTATUS": {
+          "indexNo": 2,
+          "type": "cds.Association",
+          "target": "my.tech.HEADER",
+          "foreignKeys": {
+            "ID": {
+              "path": "ID",
+              "indexNo": 1,
+              "generatedFieldName": "APPROVALSTATUS_ID",
+              "@cds.persistence.name": "ID"
+            }
+          },
+          "@cds.persistence.name": "APPROVALSTATUS"
+        },
+        "TEXT": {
+          "indexNo": 3,
+          "type": "cds.String",
+          "@cds.persistence.name": "TEXT"
+        },
+        "APPROVALSTATUS_ID": {
+          "type": "cds.Integer",
+          "@odata.foreignKey4": "APPROVALSTATUS",
+          "@cds.persistence.name": "APPROVALSTATUS_ID"
+        }
+      },
+      "@cds.persistence.name": "MY_TECH_APPROVAL_STATUS"
+    },
+    "my.tech.HEADER": {
+      "kind": "entity",
+      "elements": {
+        "ID": {
+          "key": true,
+          "indexNo": 1,
+          "type": "cds.Integer",
+          "@cds.persistence.name": "ID"
+        },
+        "PURCHASEORDERID": {
+          "indexNo": 2,
+          "type": "cds.Association",
+          "target": "my.tech.ITEM",
+          "cardinality": {
+            "targetMax": "*"
+          },
+          "onCond": {
+            "op": "=",
+            "args": [
+              {
+                "=": "PURCHASEORDERID.PURCHASEORDERID"
+              },
+              {
+                "=": "$self"
+              }
+            ]
+          },
+          "on": "PURCHASEORDERID.PURCHASEORDERID = $self",
+          "@cds.persistence.name": "PURCHASEORDERID"
+        },
+        "CURRENCY": {
+          "indexNo": 3,
+          "type": "cds.String",
+          "@cds.persistence.name": "CURRENCY"
+        },
+        "GROSSAMOUNT": {
+          "indexNo": 4,
+          "type": "cds.Decimal",
+          "precision": 15,
+          "scale": 2,
+          "@cds.persistence.name": "GROSSAMOUNT"
+        },
+        "NETAMOUNT": {
+          "indexNo": 5,
+          "type": "cds.Decimal",
+          "precision": 15,
+          "scale": 2,
+          "@cds.persistence.name": "NETAMOUNT"
+        },
+        "APPROVALSTATUS": {
+          "indexNo": 6,
+          "type": "cds.String",
+          "@cds.persistence.name": "APPROVALSTATUS"
+        }
+      },
+      "@cds.persistence.name": "MY_TECH_HEADER"
+    },
+    "my.tech.ITEM": {
+      "kind": "entity",
+      "elements": {
+        "ID": {
+          "key": true,
+          "indexNo": 1,
+          "type": "cds.Integer",
+          "@cds.persistence.name": "ID"
+        },
+        "PURCHASEORDERID": {
+          "indexNo": 2,
+          "type": "cds.Association",
+          "target": "my.tech.HEADER",
+          "foreignKeys": {
+            "ID": {
+              "path": "ID",
+              "indexNo": 1,
+              "generatedFieldName": "PURCHASEORDERID_ID",
+              "@cds.persistence.name": "ID"
+            }
+          },
+          "@cds.persistence.name": "PURCHASEORDERID"
+        },
+        "PURCHASEORDERITEM": {
+          "indexNo": 3,
+          "type": "cds.UUID",
+          "@cds.persistence.name": "PURCHASEORDERITEM"
+        },
+        "PRODUCTID": {
+          "indexNo": 4,
+          "type": "cds.String",
+          "@cds.persistence.name": "PRODUCTID"
+        },
+        "CURRENCY": {
+          "indexNo": 5,
+          "type": "cds.String",
+          "@cds.persistence.name": "CURRENCY"
+        },
+        "GROSSAMOUNT": {
+          "indexNo": 6,
+          "type": "cds.Decimal",
+          "precision": 15,
+          "scale": 2,
+          "@cds.persistence.name": "GROSSAMOUNT"
+        },
+        "NETAMOUNT": {
+          "indexNo": 7,
+          "type": "cds.String",
+          "@cds.persistence.name": "NETAMOUNT"
+        },
+        "QUANTITY": {
+          "indexNo": 8,
+          "type": "cds.Decimal",
+          "precision": 5,
+          "scale": 2,
+          "@cds.persistence.name": "QUANTITY"
+        },
+        "QUANTITYUNIT": {
+          "indexNo": 9,
+          "type": "cds.String",
+          "@cds.persistence.name": "QUANTITYUNIT"
+        },
+        "PURCHASEORDERID_ID": {
+          "type": "cds.Integer",
+          "@odata.foreignKey4": "PURCHASEORDERID",
+          "@cds.persistence.name": "PURCHASEORDERID_ID"
+        }
+      },
+      "@cds.persistence.name": "MY_TECH_ITEM"
+    }
+  },
+  "version": {
+    "creator": "CDS Compiler v1.1.3",
+    "csn": "0.1.0"
+  },
+  "@sql_mapping": "plain"
+}

@@ -1,0 +1,13 @@
+-- https://developers.sap.com/tutorials/xsa-sqlscript-stored-proc.html
+--https://developers.sap.com/group.hana-xsa-sqlscript.html
+PROCEDURE "sp_get_header_data"( IN pstatus varchar(1))
+   LANGUAGE SQLSCRIPT
+   SQL SECURITY INVOKER
+   --DEFAULT SCHEMA <default_schema_name>
+   READS SQL DATA AS
+BEGIN
+   /*************************************
+       Write your procedure logic 
+   *************************************/
+select * from my_tech_header where approvalstatus = pstatus;
+END

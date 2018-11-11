@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="1.0" xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns:sap="http://www.sap.com/Protocols/SAPData">
+  <edmx:DataServices m:DataServiceVersion="2.0">
+    <Schema Namespace="PurchaseOrder" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+      <EntityContainer Name="EntityContainer" m:IsDefaultEntityContainer="true">
+        <EntitySet Name="APPROVAL_STATUS" EntityType="PurchaseOrder.APPROVAL_STATUS"/>
+        <EntitySet Name="HEADER" EntityType="PurchaseOrder.HEADER"/>
+        <EntitySet Name="ITEM" EntityType="PurchaseOrder.ITEM"/>
+        <AssociationSet Name="APPROVAL_STATUS_APPROVALSTATUS" Association="PurchaseOrder.APPROVAL_STATUS_APPROVALSTATUS">
+          <End Role="APPROVAL_STATUS" EntitySet="APPROVAL_STATUS"/>
+          <End Role="HEADER" EntitySet="HEADER"/>
+        </AssociationSet>
+        <AssociationSet Name="ITEM_PURCHASEORDERID" Association="PurchaseOrder.ITEM_PURCHASEORDERID">
+          <End Role="ITEM" EntitySet="ITEM"/>
+          <End Role="HEADER" EntitySet="HEADER"/>
+        </AssociationSet>
+      </EntityContainer>
+      <EntityType Name="APPROVAL_STATUS">
+        <Key>
+          <PropertyRef Name="ID"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Int32" Nullable="false"/>
+        <NavigationProperty Name="APPROVALSTATUS" Relationship="PurchaseOrder.APPROVAL_STATUS_APPROVALSTATUS" FromRole="APPROVAL_STATUS" ToRole="HEADER"/>
+        <Property Name="TEXT" Type="Edm.String"/>
+        <Property Name="APPROVALSTATUS_ID" Type="Edm.Int32"/>
+      </EntityType>
+      <EntityType Name="HEADER">
+        <Key>
+          <PropertyRef Name="ID"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Int32" Nullable="false"/>
+        <NavigationProperty Name="PURCHASEORDERID" Relationship="PurchaseOrder.ITEM_PURCHASEORDERID" FromRole="HEADER" ToRole="ITEM"/>
+        <Property Name="CURRENCY" Type="Edm.String"/>
+        <Property Name="GROSSAMOUNT" Type="Edm.Decimal" Scale="2" Precision="15"/>
+        <Property Name="NETAMOUNT" Type="Edm.Decimal" Scale="2" Precision="15"/>
+        <Property Name="APPROVALSTATUS" Type="Edm.String"/>
+      </EntityType>
+      <EntityType Name="ITEM">
+        <Key>
+          <PropertyRef Name="ID"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Int32" Nullable="false"/>
+        <NavigationProperty Name="PURCHASEORDERID" Relationship="PurchaseOrder.ITEM_PURCHASEORDERID" FromRole="ITEM" ToRole="HEADER"/>
+        <Property Name="PURCHASEORDERITEM" Type="Edm.Guid"/>
+        <Property Name="PRODUCTID" Type="Edm.String"/>
+        <Property Name="CURRENCY" Type="Edm.String"/>
+        <Property Name="GROSSAMOUNT" Type="Edm.Decimal" Scale="2" Precision="15"/>
+        <Property Name="NETAMOUNT" Type="Edm.String"/>
+        <Property Name="QUANTITY" Type="Edm.Decimal" Scale="2" Precision="5"/>
+        <Property Name="QUANTITYUNIT" Type="Edm.String"/>
+        <Property Name="PURCHASEORDERID_ID" Type="Edm.Int32"/>
+      </EntityType>
+      <Association Name="APPROVAL_STATUS_APPROVALSTATUS">
+        <End Role="APPROVAL_STATUS" Type="PurchaseOrder.APPROVAL_STATUS" Multiplicity="*"/>
+        <End Role="HEADER" Type="PurchaseOrder.HEADER" Multiplicity="0..1"/>
+        <ReferentialConstraint>
+          <Principal Role="HEADER">
+            <PropertyRef Name="ID"/>
+          </Principal>
+          <Dependent Role="APPROVAL_STATUS">
+            <PropertyRef Name="APPROVALSTATUS_ID"/>
+          </Dependent>
+        </ReferentialConstraint>
+      </Association>
+      <Association Name="ITEM_PURCHASEORDERID">
+        <End Role="ITEM" Type="PurchaseOrder.ITEM" Multiplicity="*"/>
+        <End Role="HEADER" Type="PurchaseOrder.HEADER" Multiplicity="0..1"/>
+        <ReferentialConstraint>
+          <Principal Role="HEADER">
+            <PropertyRef Name="ID"/>
+          </Principal>
+          <Dependent Role="ITEM">
+            <PropertyRef Name="PURCHASEORDERID_ID"/>
+          </Dependent>
+        </ReferentialConstraint>
+      </Association>
+    </Schema>
+  </edmx:DataServices>
+</edmx:Edmx>

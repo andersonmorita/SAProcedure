@@ -1,0 +1,8 @@
+---
+applications:
+  - name: TECH001-srv
+    memory: 512M
+    buildpack: sap_java_buildpack
+    path: target/TECH001-srv-1.0-SNAPSHOT.war  
+    services:
+    - TECH001
